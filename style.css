@@ -59,3 +59,11 @@ button{
     cursor: pointer;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
+#time{
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border: 5px solid white;
+}
