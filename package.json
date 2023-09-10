@@ -1,0 +1,11 @@
+{
+  "name": "subway-manager",
+  "version": "1.0.0",
+  "description": "A subway manager game to manage your own routes!",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EF0601",
+  "license": "ISC"
+}
