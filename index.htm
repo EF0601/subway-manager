@@ -19,14 +19,16 @@
     <div id="overview">
         <div class="line">
             <h3>RED LINE</h3>
-            <button>Upgrade Trains (-500ms between stations)</button><br>
-            <button>Upgrade Stations (+$10 per station stop)</button>
+            <button>Upgrade Trains (-100ms between stations) $<span id="redTrainUpgrade">50</span></button><br>
+            <button>Upgrade Stations (+$10 per station stop) $<span id="redStationUpgrade">100</span></button><br>
+            <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
         </div>
         <div class="line">
             <h3>BLUE LINE</h3>
             <div id="blueLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockBlue">Unlock the Blue Line</button>
         </div>
@@ -34,7 +36,8 @@
             <h3>GREEN LINE</h3>
             <div id="greenLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockGreen">Unlock the Green Line</button>
         </div>
@@ -42,7 +45,8 @@
             <h3>YELLOW LINE</h3>
             <div id="yellowLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockYellow">Unlock the Yellow Line</button>
         </div>
@@ -50,7 +54,8 @@
             <h3>PURPLE LINE</h3>
             <div id="blueLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockBlue">Unlock the Blue Line</button>
         </div>
@@ -58,7 +63,8 @@
             <h3>PINK LINE</h3>
             <div id="pinkLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockPink">Unlock the Pink Line</button>
         </div>
@@ -66,7 +72,8 @@
             <h3>GRAY LINE</h3>
             <div id="grayLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockGray">Unlock the Gray Line</button>
         </div>
@@ -74,7 +81,8 @@
             <h3>ORANGE LINE</h3>
             <div id="orangeLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
-                <button>Upgrade Stations (+$10 per station stop)</button>
+                <button>Upgrade Stations (+$10 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockOrange">Unlock the Orange Line</button>
         </div>
@@ -83,13 +91,34 @@
             <div id="executiveLineContent">
                 <button>Upgrade Trains (-500ms between stations)</button><br>
                 <button>Upgrade Stations (+$100 per station stop)</button><br>
-                <button>Upgrade Trains (+$100 per station stop)</button>
+                <button>Upgrade Trains (+$100 per station stop)</button><br>
+                <button><i>The purchase of any upgrades will cause a 5% increase in cost per station!</i></button>
             </div>
             <button id="unlockExecutive">Unlock the Executive Line</button>
         </div>
+    </div>
+    <div class="lineOverview" id="redLine">
+        <h3>Red Line</h3>
+            <p>Train speed between stations: <span id="redTrainCount">2 minutes</span></p>
+            <p>Profit per stop: <span id="redRevenue">$20</span></p>
+            <p>Cost per stop: <span id="redCost">$10</span></p>
+    </div>
+    <div class="lineOverview" id="blueLine">
+        <h3>Blue Line</h3>
+        <p>Train speed between stations: <span id="blueTrainCount">2 minutes</span></p>
+        <p>Profit per stop: <span id="blueRevenue">$20</span></p>
+        <p>Cost per stop: <span id="blueCost">$10</span></p>
+    </div>
+    <div class="lineOverview" id="greenLine">
+        <h3>Green Line</h3>
+        <p>Train speed between stations: <span id="greenTrainCount">2 minutes</span></p>
+        <p>Profit per stop: <span id="greenRevenue">$20</span></p>
+        <p>Cost per stop: <span id="greenCost">$10</span></p>
     </div>
 
 </body>
 <script src="intro.js"></script>
 <script src="timer.js"></script>
+<script src="main.js"></script>
+<script type="module" src="main.js"></script>
 </html>

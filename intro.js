@@ -1,8 +1,8 @@
-function on() {
+function activate() {
     document.getElementById("intro").style.display = "block";
 }
-function off() {
+function deactivate() {
     document.getElementById("intro").style.display = "none";
 }
-on();
-document.addEventListener("mousedown", off);
+activate();
+document.addEventListener('mousedown', deactivate);
