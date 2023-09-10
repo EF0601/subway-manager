@@ -14,7 +14,7 @@
         <p>For more information, please visit our github page.</p>
         <p><i>Click anywhere to dismiss this message.</i></p>
     </div>
-    <h1>Subway Manager</h1>
+    <h1>Subway Manager<br>You have $<span id="money">0</span></h1>
     <h2 id="time">00:00</h2>
     <div id="overview">
         <div class="line">
@@ -98,27 +98,45 @@
         </div>
     </div>
     <div class="lineOverview" id="redLine">
-        <h3>Red Line</h3>
-            <p>Train speed between stations: <span id="redTrainCount">2 minutes</span></p>
+        <div class="lineOverviewBody">
+            <h3>Red Line</h3>
+            <p>Train speed between stations: <span id="redTrainCount">5 minutes</span></p>
             <p>Profit per stop: <span id="redRevenue">$20</span></p>
             <p>Cost per stop: <span id="redCost">$10</span></p>
+        </div>
+        <div class="status">
+            <h4>Red Line Train Status</h4>
+            <p><span id="redTrainStatus">In yard...</span></p>
+            Stops: <span id="redStops">0</span>/8
+        </div>
     </div>
     <div class="lineOverview" id="blueLine">
-        <h3>Blue Line</h3>
-        <p>Train speed between stations: <span id="blueTrainCount">2 minutes</span></p>
-        <p>Profit per stop: <span id="blueRevenue">$20</span></p>
-        <p>Cost per stop: <span id="blueCost">$10</span></p>
+        <div class="lineOverviewBody">
+            <h3>Blue Line</h3>
+            <p>Train speed between stations: <span id="blueTrainCount">5 minutes</span></p>
+            <p>Profit per stop: <span id="blueRevenue">$20</span></p>
+            <p>Cost per stop: <span id="blueCost">$10</span></p>
+        </div>
+        <div class="status">
+            <h4>Blue Line Train Status</h4>
+            <p><span id="blueTrainStatus">Not unlocked</span></p>
+        </div>
     </div>
     <div class="lineOverview" id="greenLine">
-        <h3>Green Line</h3>
-        <p>Train speed between stations: <span id="greenTrainCount">2 minutes</span></p>
-        <p>Profit per stop: <span id="greenRevenue">$20</span></p>
-        <p>Cost per stop: <span id="greenCost">$10</span></p>
+        <div class="lineOverviewBody">
+            <h3>Green Line</h3>
+            <p>Train speed between stations: <span id="greenTrainCount">5 minutes</span></p>
+            <p>Profit per stop: <span id="greenRevenue">$20</span></p>
+            <p>Cost per stop: <span id="greenCost">$10</span></p>
+        </div>
+        <div class="status">
+            <h4>Green Line Train Status</h4>
+            <p><span id="greenTrainStatus">Not unlocked</span></p>
+        </div>
     </div>
 
 </body>
 <script src="intro.js"></script>
 <script src="timer.js"></script>
 <script src="main.js"></script>
-<script type="module" src="main.js"></script>
 </html>

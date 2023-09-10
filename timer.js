@@ -1,10 +1,7 @@
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.hour = void 0;
 var days = 0;
 var hours = 0;
 var minutes = 0;
 var timer = document.getElementById("time");
-exports.hour = hours;
 setInterval(function () {
     minutes++;
     if (minutes === 60) {
