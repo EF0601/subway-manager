@@ -6,12 +6,13 @@ setInterval(function () {
     if (hour === 24) {
         hour = 0;
     }
-}, 60000);
+}, 6000);
 function updateMoney() {
     document.getElementById('money').textContent = "".concat(money);
 }
 var redLine = {
-    redTrainSpeed: 5000,
+    yardStay: true,
+    redTrainSpeed: 500,
     redTrainLocation: 0,
     redTrainStations: [
         'In transit...',
@@ -44,14 +45,15 @@ function updateRedLine() {
     redLine.redTrainProfitDisplay.textContent = "$".concat(redLine.redTrainProfitPerStop);
     redLine.redTrainSpeedDisplay.textContent = "".concat(redLine.redTrainSpeed / 1000, " minutes");
 }
-setInterval(function () {
-    if (hour >= 3) {
-        redLine.redTrainLocationDisplay.textContent = redLine.redTrainStations[redLine.redTrainLocation];
+function driveRedLine() {
+    if (hour >= 3 && hour <= 23 && redLine.yardStay === false) {
+        redLine.redTrainLocationDisplay.textContent =
+            redLine.redTrainStations[redLine.redTrainLocation];
         redLine.redTrainLocation++;
         if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
             money += redLine.redTrainProfitPerStop;
             money -= redLine.redTrainCost;
-            redLine.redTrainStopsDisplay.textContent = "".concat((redLine.redTrainLocation / 2) + 0.5);
+            redLine.redTrainStopsDisplay.textContent = "".concat(redLine.redTrainLocation / 2 + 0.5);
             updateMoney();
         }
         if (redLine.redTrainLocation === redLine.redTrainStations.length &&
@@ -60,8 +62,25 @@ setInterval(function () {
             redLine.redTrainLocation = 0;
         }
         else if (redLine.redTrainLocation === redLine.redTrainStations.length) {
-            redLine.redTrainLocationDisplay.textContent = 'In yard...';
+            redLine.yardStay = true;
             redLine.redTrainLocation = 0;
         }
     }
-}, redLine.redTrainSpeed);
+    setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
+}
+function driveRedLine2() {
+    if (hour >= 3 && hour <= 23) {
+        redLine.yardStay = false;
+    }
+    else if (hour < 3 && hour > 23 && redLine.yardStay == true) {
+        redLine.redTrainLocationDisplay.textContent = 'In yard...';
+    }
+    setTimeout(driveRedLine, redLine.redTrainSpeed / 2);
+}
+var dispatcher = setInterval(function () {
+    if (hour === 3) {
+        redLine.yardStay = false;
+        driveRedLine();
+        clearInterval(dispatcher);
+    }
+}, 1000);

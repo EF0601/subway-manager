@@ -10,10 +10,11 @@ setInterval(() => {
 }, 60000);
 
 function updateMoney() {
-    document.getElementById('money')!.textContent = `${money}`;
+  document.getElementById('money')!.textContent = `${money}`;
 }
 
 let redLine = {
+  yardStay: true,
   redTrainSpeed: 5000,
   redTrainLocation: 0,
   redTrainStations: [
@@ -44,32 +45,44 @@ let redLine = {
   redTrainLocationDisplay: document.getElementById('redTrainStatus')!,
   redTrainStopsDisplay: document.getElementById('redStops')!,
 };
+
 function updateRedLine() {
-    redLine.redTrainCostDisplay.textContent = `$${redLine.redTrainCost}`;
-    redLine.redTrainProfitDisplay.textContent = `$${redLine.redTrainProfitPerStop}`;
-    redLine.redTrainSpeedDisplay.textContent = `${redLine.redTrainSpeed/1000} minutes`;
+  redLine.redTrainCostDisplay.textContent = `$${redLine.redTrainCost}`;
+  redLine.redTrainProfitDisplay.textContent = `$${redLine.redTrainProfitPerStop}`;
+  redLine.redTrainSpeedDisplay.textContent = `${
+    redLine.redTrainSpeed / 1000
+  } minutes`;
 }
-setInterval (() => {
-    if (hour >= 3) {
-        redLine.redTrainLocationDisplay.textContent = redLine.redTrainStations[redLine.redTrainLocation];
-        redLine.redTrainLocation++;
-        if (
-          redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...'
-        ) {
-          money += redLine.redTrainProfitPerStop;
-          money -= redLine.redTrainCost;
-          redLine.redTrainStopsDisplay.textContent = `${(redLine.redTrainLocation/2)+0.5}`;
-          updateMoney();
-        }
-        if (
-          redLine.redTrainLocation === redLine.redTrainStations.length &&
-          hour >= 3 &&
-          hour <= 23
-        ) {
-          redLine.redTrainLocation = 0;
-        } else if (redLine.redTrainLocation === redLine.redTrainStations.length) {
-          redLine.redTrainLocationDisplay.textContent = 'In yard...';
-          redLine.redTrainLocation = 0;
-        }
+
+function driveRedLine() {
+  if (hour >= 3 && hour <= 23) {
+    redLine.redTrainLocationDisplay.textContent =
+      redLine.redTrainStations[redLine.redTrainLocation];
+    redLine.redTrainLocation++;
+    if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
+      money += redLine.redTrainProfitPerStop;
+      money -= redLine.redTrainCost;
+      redLine.redTrainStopsDisplay.textContent = `${
+        redLine.redTrainLocation / 2 + 0.5
+      }`;
+      updateMoney();
     }
-}, redLine.redTrainSpeed);
+    if (
+      redLine.redTrainLocation === redLine.redTrainStations.length
+    ) {
+      redLine.redTrainLocation = 0;
+  }
+  setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
+}
+}
+
+function driveRedLine2() {
+  setTimeout(driveRedLine, redLine.redTrainSpeed / 2);
+}
+let dispatcher = setInterval(() => {
+  if (hour === 3) {
+    redLine.yardStay = false;
+    driveRedLine();
+    clearInterval(dispatcher);
+  }
+}, 1000);
