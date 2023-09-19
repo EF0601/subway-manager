@@ -11,11 +11,13 @@ setInterval(() => {
 
 function updateMoney() {
   document.getElementById('money')!.textContent = `${money}`;
+  money = Math.round(money * 100) / 100;
 }
 
 let redLine = {
   yardStay: true,
   redTrainSpeed: 5000,
+  redTrainPax: 0,
   redTrainLocation: 0,
   redTrainStations: [
     'In transit...',
@@ -36,10 +38,12 @@ let redLine = {
     'Oakshire North Station',
   ],
   redTrainCost: 10,
-  redTrainProfitPerStop: 20,
+  redTrainTicket: 5,
+  redCapacity: 60,
 
   redTrainCostDisplay: document.getElementById('redCost')!,
-  redTrainProfitDisplay: document.getElementById('redRevenue')!,
+  redCapacityDisplay: document.getElementById('redCapacity')!,
+  redPaxDisplay: document.getElementById('redPax')!,
 
   redTrainSpeedDisplay: document.getElementById('redTrainCount')!,
   redTrainLocationDisplay: document.getElementById('redTrainStatus')!,
@@ -48,7 +52,6 @@ let redLine = {
 
 function updateRedLine() {
   redLine.redTrainCostDisplay.textContent = `$${redLine.redTrainCost}`;
-  redLine.redTrainProfitDisplay.textContent = `$${redLine.redTrainProfitPerStop}`;
   redLine.redTrainSpeedDisplay.textContent = `${
     redLine.redTrainSpeed / 1000
   } minutes`;
@@ -60,20 +63,29 @@ function driveRedLine() {
       redLine.redTrainStations[redLine.redTrainLocation];
     redLine.redTrainLocation++;
     if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
-      money += redLine.redTrainProfitPerStop;
+      if (redLine.redTrainPax > 0 && redLine.redTrainPax <= redLine.redCapacity) {
+        let temp = getRandomNumber(1, redLine.redTrainPax);
+        money += redLine.redTrainTicket*temp;
+        redLine.redTrainPax -= temp;
+      }
+      if (redLine.redTrainPax > redLine.redCapacity) {
+        let temp = getRandomNumber(redLine.redTrainPax/2, redLine.redCapacity);
+        money += redLine.redTrainTicket * temp;
+        redLine.redTrainPax -= temp;
+      }
+      redLine.redTrainPax += getRandomNumber(1, 10);
       money -= redLine.redTrainCost;
+      redLine.redPaxDisplay.textContent = `${redLine.redTrainPax}`;
       redLine.redTrainStopsDisplay.textContent = `${
         redLine.redTrainLocation / 2 + 0.5
       }`;
       updateMoney();
     }
-    if (
-      redLine.redTrainLocation === redLine.redTrainStations.length
-    ) {
+    if (redLine.redTrainLocation === redLine.redTrainStations.length) {
       redLine.redTrainLocation = 0;
+    }
+    setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
   }
-  setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
-}
 }
 
 function driveRedLine2() {
@@ -86,3 +98,12 @@ let dispatcher = setInterval(() => {
     clearInterval(dispatcher);
   }
 }, 1000);
+function updateValuesOfSlider() {
+  let slider = document.getElementById('redTrainTicket') as HTMLInputElement;
+  let output = document.getElementById('redTrainTicketDisplay')!;
+  output.textContent = `${slider.value}`;
+  redLine.redTrainTicket = parseInt(slider.value);
+}
+function getRandomNumber(min:number, max:number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

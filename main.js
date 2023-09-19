@@ -6,13 +6,15 @@ setInterval(function () {
     if (hour === 24) {
         hour = 0;
     }
-}, 6000);
+}, 60000);
 function updateMoney() {
     document.getElementById('money').textContent = "".concat(money);
+    money = Math.round(money * 100) / 100;
 }
 var redLine = {
     yardStay: true,
-    redTrainSpeed: 500,
+    redTrainSpeed: 5000,
+    redTrainPax: 0,
     redTrainLocation: 0,
     redTrainStations: [
         'In transit...',
@@ -33,48 +35,48 @@ var redLine = {
         'Oakshire North Station',
     ],
     redTrainCost: 10,
-    redTrainProfitPerStop: 20,
+    redTrainTicket: 5,
+    redCapacity: 60,
     redTrainCostDisplay: document.getElementById('redCost'),
-    redTrainProfitDisplay: document.getElementById('redRevenue'),
+    redCapacityDisplay: document.getElementById('redCapacity'),
+    redPaxDisplay: document.getElementById('redPax'),
     redTrainSpeedDisplay: document.getElementById('redTrainCount'),
     redTrainLocationDisplay: document.getElementById('redTrainStatus'),
     redTrainStopsDisplay: document.getElementById('redStops'),
 };
 function updateRedLine() {
     redLine.redTrainCostDisplay.textContent = "$".concat(redLine.redTrainCost);
-    redLine.redTrainProfitDisplay.textContent = "$".concat(redLine.redTrainProfitPerStop);
     redLine.redTrainSpeedDisplay.textContent = "".concat(redLine.redTrainSpeed / 1000, " minutes");
 }
 function driveRedLine() {
-    if (hour >= 3 && hour <= 23 && redLine.yardStay === false) {
+    if (hour >= 3 && hour <= 23) {
         redLine.redTrainLocationDisplay.textContent =
             redLine.redTrainStations[redLine.redTrainLocation];
         redLine.redTrainLocation++;
         if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
-            money += redLine.redTrainProfitPerStop;
+            if (redLine.redTrainPax > 0 && redLine.redTrainPax <= redLine.redCapacity) {
+                var temp = getRandomNumber(1, redLine.redTrainPax);
+                money += redLine.redTrainTicket * temp;
+                redLine.redTrainPax -= temp;
+            }
+            if (redLine.redTrainPax > redLine.redCapacity) {
+                var temp = getRandomNumber(redLine.redTrainPax / 2, redLine.redCapacity);
+                money += redLine.redTrainTicket * temp;
+                redLine.redTrainPax -= temp;
+            }
+            redLine.redTrainPax += getRandomNumber(1, 10);
             money -= redLine.redTrainCost;
+            redLine.redPaxDisplay.textContent = "".concat(redLine.redTrainPax);
             redLine.redTrainStopsDisplay.textContent = "".concat(redLine.redTrainLocation / 2 + 0.5);
             updateMoney();
         }
-        if (redLine.redTrainLocation === redLine.redTrainStations.length &&
-            hour >= 3 &&
-            hour <= 23) {
+        if (redLine.redTrainLocation === redLine.redTrainStations.length) {
             redLine.redTrainLocation = 0;
         }
-        else if (redLine.redTrainLocation === redLine.redTrainStations.length) {
-            redLine.yardStay = true;
-            redLine.redTrainLocation = 0;
-        }
+        setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
     }
-    setTimeout(driveRedLine2, redLine.redTrainSpeed / 2);
 }
 function driveRedLine2() {
-    if (hour >= 3 && hour <= 23) {
-        redLine.yardStay = false;
-    }
-    else if (hour < 3 && hour > 23 && redLine.yardStay == true) {
-        redLine.redTrainLocationDisplay.textContent = 'In yard...';
-    }
     setTimeout(driveRedLine, redLine.redTrainSpeed / 2);
 }
 var dispatcher = setInterval(function () {
@@ -84,3 +86,12 @@ var dispatcher = setInterval(function () {
         clearInterval(dispatcher);
     }
 }, 1000);
+function updateValuesOfSlider() {
+    var slider = document.getElementById('redTrainTicket');
+    var output = document.getElementById('redTrainTicketDisplay');
+    output.textContent = "".concat(slider.value);
+    redLine.redTrainTicket = parseInt(slider.value);
+}
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

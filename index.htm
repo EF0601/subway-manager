@@ -101,8 +101,10 @@
         <div class="lineOverviewBody">
             <h3>Red Line</h3>
             <p>Train speed between stations: <span id="redTrainCount">5 minutes</span></p>
-            <p>Profit per stop: <span id="redRevenue">$20</span></p>
-            <p>Cost per stop: <span id="redCost">$10</span></p>
+            <p>Price per ticket: <input type="range" id="redTrainTicket" max="50" min="1" maxlength="2" minlength="1" class="trainTicket" value="5" oninput="updateValuesOfSlider()"> <span id="redTrainTicketDisplay">5</span></p>
+            <p>Cost per stop: <span id="redCost">$10</span>(+$0.01) per additional person</p>
+            <p>Train capacity: <span id="redCapacity">60</span></p>
+            <p>Passengers onboard: <span id="redPax">0</span></p>
         </div>
         <div class="status">
             <h4>Red Line Train Status</h4>

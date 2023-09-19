@@ -81,6 +81,7 @@ button{
     padding: 20px;
     border: 5px solid white;
 }
+
 .lineOverview{
     padding: 30px;
     color: white;
@@ -90,4 +91,18 @@ button{
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 100%;
+}
+
+.trainTicket{
+    outline: none;
+    background: none;
+    color: white;
+    border: none;
+    font-size: large;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
