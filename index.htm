@@ -96,12 +96,24 @@
             </div>
             <button id="unlockExecutive">Unlock the Executive Line</button>
         </div>
+        <div class="line">
+            <h3>CURRENT RUSH HOUR CASH BONUS</h3>
+            <span id="rushBonus">x1.0</span>
+        </div>
+        <div class="line">
+            <h3>CURRENT EVENT CASH BONUS</h3>
+            <span id="eventBonus">x1.0</span>
+        </div>
+        <div class="line">
+            <h3>CURRENT NEGATIVE CASH AFFECTS</h3>
+            <span id="negativeAffects">x1.0</span>
+        </div>
     </div>
     <div class="lineOverview" id="redLine">
         <div class="lineOverviewBody">
             <h3>Red Line</h3>
             <p>Train speed between stations: <span id="redTrainCount">5 minutes</span></p>
-            <p>Price per ticket: <input type="range" id="redTrainTicket" max="50" min="1" maxlength="2" minlength="1" class="trainTicket" value="5" oninput="updateValuesOfSlider()"> <span id="redTrainTicketDisplay">5</span></p>
+            <p>Price per ticket: <input type="range" id="redTrainTicket" max="25" min="1" maxlength="2" minlength="1" class="trainTicket" value="3.5" oninput="updateValuesOfSlider()" step="0.5"> <span id="redTrainTicketDisplay">3.5</span></p>
             <p>Cost per stop: <span id="redCost">$10</span>(+$0.01) per additional person</p>
             <p>Train capacity: <span id="redCapacity">60</span></p>
             <p>Passengers onboard: <span id="redPax">0</span></p>

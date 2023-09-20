@@ -1,20 +1,32 @@
 var hour = 0;
 var money = 0;
+var rushHourBonus = 1;
 setInterval(function () {
     hour++;
     console.log("It is hour: ".concat(hour));
+    if (hour >= 15 && hour <= 23) {
+        rushHourBonus = 1.15;
+    }
+    else {
+        rushHourBonus = 1;
+    }
     if (hour === 24) {
         hour = 0;
     }
+    updateBonus();
 }, 60000);
 function updateMoney() {
     document.getElementById('money').textContent = "".concat(money);
     money = Math.round(money * 100) / 100;
 }
+function updateBonus() {
+    document.getElementById('rushBonus').textContent = "x".concat(rushHourBonus);
+}
 var redLine = {
     yardStay: true,
     redTrainSpeed: 5000,
     redTrainPax: 0,
+    PaxMultiplier: 1,
     redTrainLocation: 0,
     redTrainStations: [
         'In transit...',
@@ -54,17 +66,19 @@ function driveRedLine() {
             redLine.redTrainStations[redLine.redTrainLocation];
         redLine.redTrainLocation++;
         if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
-            if (redLine.redTrainPax > 0 && redLine.redTrainPax <= redLine.redCapacity) {
-                var temp = getRandomNumber(1, redLine.redTrainPax);
-                money += redLine.redTrainTicket * temp;
+            if (redLine.redTrainPax > 0 &&
+                redLine.redTrainPax <= redLine.redCapacity) {
+                var temp = Math.floor(getRandomNumber(1, redLine.redTrainPax));
+                money += redLine.redTrainTicket * temp * rushHourBonus;
                 redLine.redTrainPax -= temp;
             }
             if (redLine.redTrainPax > redLine.redCapacity) {
-                var temp = getRandomNumber(redLine.redTrainPax / 2, redLine.redCapacity);
-                money += redLine.redTrainTicket * temp;
+                money += (redLine.redTrainPax - redLine.redCapacity) * 0.01;
+                var temp = Math.floor(getRandomNumber(redLine.redTrainPax / 2, redLine.redTrainPax));
+                money += redLine.redTrainTicket * temp * rushHourBonus;
                 redLine.redTrainPax -= temp;
             }
-            redLine.redTrainPax += getRandomNumber(1, 10);
+            redLine.redTrainPax += Math.floor(getRandomNumber(1, 20) * redLine.PaxMultiplier);
             money -= redLine.redTrainCost;
             redLine.redPaxDisplay.textContent = "".concat(redLine.redTrainPax);
             redLine.redTrainStopsDisplay.textContent = "".concat(redLine.redTrainLocation / 2 + 0.5);
@@ -78,6 +92,15 @@ function driveRedLine() {
 }
 function driveRedLine2() {
     setTimeout(driveRedLine, redLine.redTrainSpeed / 2);
+    if (redLine.redTrainTicket > 7) {
+        redLine.PaxMultiplier = 0.25;
+    }
+    else if (redLine.redTrainTicket < 2) {
+        redLine.PaxMultiplier = 1.75;
+    }
+    else {
+        redLine.PaxMultiplier = 1;
+    }
 }
 var dispatcher = setInterval(function () {
     if (hour === 3) {

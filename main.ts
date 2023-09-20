@@ -1,12 +1,20 @@
 let hour: number = 0;
 let money: number = 0;
 
+let rushHourBonus: number = 1;
+
 setInterval(() => {
   hour++;
   console.log(`It is hour: ${hour}`);
+  if (hour >= 15 && hour <= 23) {
+    rushHourBonus = 1.15;
+  } else {
+    rushHourBonus = 1;
+  }
   if (hour === 24) {
     hour = 0;
   }
+  updateBonus();
 }, 60000);
 
 function updateMoney() {
@@ -14,10 +22,15 @@ function updateMoney() {
   money = Math.round(money * 100) / 100;
 }
 
+function updateBonus() {
+  document.getElementById('rushBonus')!.textContent = `x${rushHourBonus}`;
+}
+
 let redLine = {
   yardStay: true,
   redTrainSpeed: 5000,
   redTrainPax: 0,
+  PaxMultiplier: 1,
   redTrainLocation: 0,
   redTrainStations: [
     'In transit...',
@@ -63,17 +76,25 @@ function driveRedLine() {
       redLine.redTrainStations[redLine.redTrainLocation];
     redLine.redTrainLocation++;
     if (redLine.redTrainStations[redLine.redTrainLocation] != 'In transit...') {
-      if (redLine.redTrainPax > 0 && redLine.redTrainPax <= redLine.redCapacity) {
-        let temp = getRandomNumber(1, redLine.redTrainPax);
-        money += redLine.redTrainTicket*temp;
+      if (
+        redLine.redTrainPax > 0 &&
+        redLine.redTrainPax <= redLine.redCapacity
+      ) {
+        let temp = Math.floor(getRandomNumber(1, redLine.redTrainPax));
+        money += redLine.redTrainTicket * temp * rushHourBonus;
         redLine.redTrainPax -= temp;
       }
       if (redLine.redTrainPax > redLine.redCapacity) {
-        let temp = getRandomNumber(redLine.redTrainPax/2, redLine.redCapacity);
-        money += redLine.redTrainTicket * temp;
+        money += (redLine.redTrainPax - redLine.redCapacity) * 0.01;
+        let temp = Math.floor(
+          getRandomNumber(redLine.redTrainPax / 2, redLine.redTrainPax),
+        );
+        money += redLine.redTrainTicket * temp * rushHourBonus;
         redLine.redTrainPax -= temp;
       }
-      redLine.redTrainPax += getRandomNumber(1, 10);
+      redLine.redTrainPax += Math.floor(
+        getRandomNumber(1, 20) * redLine.PaxMultiplier,
+      );
       money -= redLine.redTrainCost;
       redLine.redPaxDisplay.textContent = `${redLine.redTrainPax}`;
       redLine.redTrainStopsDisplay.textContent = `${
@@ -90,6 +111,13 @@ function driveRedLine() {
 
 function driveRedLine2() {
   setTimeout(driveRedLine, redLine.redTrainSpeed / 2);
+  if (redLine.redTrainTicket > 7) {
+    redLine.PaxMultiplier = 0.25;
+  } else if (redLine.redTrainTicket < 2) {
+    redLine.PaxMultiplier = 1.75;
+  } else {
+    redLine.PaxMultiplier = 1;
+  }
 }
 let dispatcher = setInterval(() => {
   if (hour === 3) {
@@ -104,6 +132,6 @@ function updateValuesOfSlider() {
   output.textContent = `${slider.value}`;
   redLine.redTrainTicket = parseInt(slider.value);
 }
-function getRandomNumber(min:number, max:number) {
+function getRandomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
